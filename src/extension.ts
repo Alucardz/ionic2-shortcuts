@@ -7,31 +7,14 @@ import * as fs from 'fs'
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "ionic2-shortcuts" is now active!');
-
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.sayHello', () => {
+    let disposable = vscode.commands.registerCommand('extension.openPageComponent', () => {
         // The code you place here will be executed every time your command is executed
-
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
-    });
-
-
-    context.subscriptions.push(disposable);
-
-    disposable = vscode.commands.registerCommand('extension.openPageComponent', () => {
-        // The code you place here will be executed every time your command is executed
-        let fileName = vscode.window.activeTextEditor.document.fileName;
+        let fileName: string = vscode.window.activeTextEditor.document.fileName;
         let fileNameArr: string[] = fileName.split("\\");
-        let fileDir = fileNameArr.slice(0, fileNameArr.length - 1).join("\\");
+        let fileDir: string = fileNameArr.slice(0, fileNameArr.length - 1).join("\\");
         let fileNameToOpen: string;
 
-        //if an .hmtl file is open, simply open the equivalent .ts, or if not found open the .ts (multiple?) in the same folder
+        //if an .html file is open, simply open the equivalent .ts, or if not found open the .ts (multiple?) in the same folder
         if (fileName.endsWith(".html")) {
             fileNameToOpen = fileName.replace(".html", ".ts")
             if (!fs.existsSync(fileNameToOpen)) {
@@ -49,15 +32,8 @@ export function activate(context: vscode.ExtensionContext) {
                     fileNameToOpen = fileDir + "\\" + tsFilesInDir[0];
                 } else {
                     //todo: multiple files?
-                    // let qpArr: vscode.QuickPickItem
-                    // tsFilesInDir.forEach(element => {
-                        
-                    // });
-                    let test: Thenable<string[]>;
-
                     vscode.window.showQuickPick(tsFilesInDir, {
                         placeHolder: "Multiple .ts files where found:",
-                        ignoreFocusOut: true,
                         onDidSelectItem: (item) => {
                             //openFile(fileDir + "\\" + item);
                         }
@@ -65,22 +41,20 @@ export function activate(context: vscode.ExtensionContext) {
                 }
             }
         } else if (fileName.endsWith(".ts")) {
-            let text = vscode.window.activeTextEditor.document.getText(new vscode.Range(0, 0, vscode.window.activeTextEditor.document.lineCount, 0))
-            let compParams = text.substring(text.indexOf("@Component({") + 11, text.indexOf("})") + 1);
-            let compParamsObj = JSON.parse(JSONize(compParams));
+            let text: string = vscode.window.activeTextEditor.document.getText(new vscode.Range(0, 0, vscode.window.activeTextEditor.document.lineCount, 0))
+            //seek out Component metadata options
+            let compParams: string = text.substring(text.indexOf("@Component({") + 11, text.indexOf("})") + 1);
 
-            if (compParamsObj.templateUrl) {
-                fileNameToOpen = fileName.replace(fileNameArr.pop(), compParamsObj.templateUrl);
-            } else {
-                if (fileName.endsWith(".html")) {
-                    fileNameToOpen = fileName.replace(".html", ".ts")
-                } else if (fileName.endsWith(".ts")) {
+            //Make sure it exists (empty files, etc...)
+            if ((compParams !== "") && compParams.startsWith("{") && (compParams.endsWith("}"))) {
+                let compParamsObj = JSON.parse(JSONize(compParams));
+                //read templateUrl
+                if (compParamsObj.templateUrl) {
+                    fileNameToOpen = fileName.replace(fileNameArr.pop(), compParamsObj.templateUrl);
+                } else { //if not found, just revert to opening html file of same name                    
                     fileNameToOpen = fileName.replace(".ts", ".html")
-                } else {
-                    return;
                 }
             }
-
         }
         openFile(fileNameToOpen);
 
@@ -92,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
 function openFile(fileNameToOpen: string) {
     if ((fileNameToOpen !== "") && (fs.existsSync(fileNameToOpen))) {
         vscode.commands.executeCommand("vscode.open", vscode.Uri.file(fileNameToOpen)).then(() => {
-            
+
         });
     }
 }
