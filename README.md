@@ -1,65 +1,31 @@
-# ionic2-shortcuts README
+# ng2-shortcuts README
 
-This is the README for your extension "ionic2-shortcuts". After writing up a brief description, we recommend including the following sections.
+This simple Angular 2 productivity VSCode extension tries to mimic the behaviour of the Visual Studio F7 key which by defaults switches to the 'code-behind' of a layout page (typically in web forms).
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Will keybind the F7 key to automatically read the @Component decorator of an opened .ts component file, and read the templateUrl property if it exists, and open the equivalent template .html. 
 
-For example if there is an image subfolder under your extension project workspace:
+Pressing F7 from the .html template file will simply open the .ts file in the same folder with the following priority:
+1- If the file has the same name
+2- If there is only 1 .ts file in the same folder
 
-\!\[feature X\]\(images/feature-x.png\)
+## Upcoming Features
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+The priority logic will be further updated to include:
 
-## Requirements
+3- If there are multiple files, open the one with a @Component decorator
+OR
+3- If there are multiple files, either opt the user to select which (using VSCode's QuickPick)
+OR
+3- If there are multiple files, try to eliminate which are not
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+This is a bit of an overkill, as a typical Angular 2 component is usually structured in a single folder with 1 .ts file having a @Component decorator (same applies for Ionic 2 Pages).
 
 ## Known Issues
 
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release
