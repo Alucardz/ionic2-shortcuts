@@ -6,10 +6,10 @@ This simple Angular 2 productivity VSCode extension tries to mimic the behaviour
 
 Will keybind the F7 key to automatically read the @Component decorator of an opened .ts component file, and read the templateUrl property if it exists, and open the equivalent template .html (typically residing in the same folder) in a seperate tab while keeping the .ts file open. 
 
-Pressing F7 from the .html template file will simply open the .ts file in the same folder with the following priority:
-1- If the file has the same name
-2- If there is only 1 .ts file in the same folder
-3- If there are multiple files, opt the user to select which to open (using VSCode's QuickPick) *currenty selecting from list does nothing*
+Pressing F7 from the .html template file will simply open the .ts file in the same folder with the following priority: <br>
+1- If the file has the same name <br>
+2- If there is only 1 .ts file in the same folder <br>
+3- If there are multiple files, opt the user to select which to open (using VSCode's QuickPick) *currenty selecting from list does nothing* <br>
 
 ## Upcoming Features
 
