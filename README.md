@@ -14,17 +14,13 @@ Pressing F7 from the .html template file will simply open the .ts file in the sa
 
 The priority logic will be further updated to include:
 
-3- If there are multiple files, open the one with a @Component decorator
+3- If there are multiple files, open the one with a @Component decorator <br>
 OR
-3- If there are multiple files, either opt the user to select which (using VSCode's QuickPick)
+3- If there are multiple files, either opt the user to select which (using VSCode's QuickPick) <br>
 OR
-3- If there are multiple files, try to eliminate which are not
+3- If there are multiple files, try to eliminate which are not <br>
 
 This is a bit of an overkill, as a typical Angular 2 component is usually structured in a single folder with 1 .ts file having a @Component decorator (same applies for Ionic 2 Pages).
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ### 1.0.0
 
